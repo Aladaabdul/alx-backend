@@ -31,3 +31,10 @@ class FIFOCache(BaseCaching):
 
         """
         return self.cache_data.get(key, None)
+
+    def print_cache(self):
+        """print the cache"""
+
+        print("Current cache:")
+        for key, value in self.cache_data.items():
+            print(f"{key}: {value}")
