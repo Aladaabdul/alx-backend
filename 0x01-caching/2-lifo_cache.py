@@ -2,9 +2,8 @@
 
 """FIFOCache function"""
 
-
-BaseCaching = __import__('base_caching').BaseCaching
 from collections import OrderedDict
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache(BaseCaching):
@@ -23,11 +22,10 @@ class LIFOCache(BaseCaching):
         if key is None or item is None:
             return None
 
-        self.cache_data[key] = item
-
-        if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-            last_key, _ = self.cache_data.popitem(True)
-            print(f"DISCARD: {last_key}")
+        if key not in self.cache_data:
+            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+                last_key, _ = self.cache_data.popitem(True)
+                print(f"DISCARD: {last_key}")
         self.cache_data[key] = item
         self.cache_data.move_to_end(key, last=True)
 
@@ -35,6 +33,4 @@ class LIFOCache(BaseCaching):
         """get function
 
         """
-        if key is None or key not in self.cache_data:
-            return None
-        self.cache_data.get(key)
+        return self.cache_data.get(key, None)
