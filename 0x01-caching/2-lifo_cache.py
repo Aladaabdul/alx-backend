@@ -4,6 +4,7 @@
 
 
 BaseCaching = __import__('base_caching').BaseCaching
+from collections import OrderedDict
 
 
 class LIFOCache(BaseCaching):
@@ -13,6 +14,7 @@ class LIFOCache(BaseCaching):
     def __init__(self):
         """initialize class"""
         super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
         """put function
@@ -23,10 +25,11 @@ class LIFOCache(BaseCaching):
 
         self.cache_data[key] = item
 
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            last_key = next(reversed(self.cache_data))
+        if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+            last_key, _ = self.cache_data.popitem(True)
             print(f"DISCARD: {last_key}")
-            del self.cache_data[last_key]
+        self.cache_data[key] = item
+        self.cache_data.move_to_end(key, last=True)
 
     def get(self, key):
         """get function
