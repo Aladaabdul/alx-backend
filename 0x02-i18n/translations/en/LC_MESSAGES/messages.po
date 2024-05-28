@@ -20,7 +20,7 @@ msgstr ""
 
 
 msgid "home_title"
-msgstr "Bienvenue chez Holberton"
+msgstr "Welcome to Holberton"
 
 msgid "home_header"
-msgstr "Bonjour monde!"
+msgstr "Hello world!"
