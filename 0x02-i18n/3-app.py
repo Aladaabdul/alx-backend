@@ -5,7 +5,7 @@
 
 
 from flask import render_template, request
-from flask_babel import Babel
+from flask_babel import Babel,  _
 from flask import Flask
 
 
@@ -20,10 +20,9 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
 babel = Babel(app)
 
-
-@babel.localeselector
 def get_locale():
     """get_locale function
 
@@ -41,3 +40,4 @@ def hello():
 
 if __name__ == '__main__':
     app.run()
+    babel.init_app(app, locale_selector=get_locale)
