@@ -7,6 +7,7 @@
 from flask import render_template, request, g
 from flask_babel import Babel
 from flask import Flask
+from pytz import timezone
 
 
 class Config:
@@ -64,14 +65,29 @@ def get_locale():
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
+def get_timezone():
+    """get_timezone function
+
+    """
+    user = getattr(g, 'user', None)
+    if user is not None:
+        try:
+            if user is not None:
+                utc = timezone(user.timezone)
+                return utc
+        except (UnknownTimeZoneError):
+            return None
+
+
+
 @app.route('/')
 def hello():
     """return html template
 
     """
-    return render_template('6-index.html')
+    return render_template('7-index.html')
 
 
 if __name__ == '__main__':
     app.run()
-    babel.init_app(app, locale_selector=get_locale)
+    babel.init_app(app, locale_selector=get_locale, timezone_selector=get_timezone)
